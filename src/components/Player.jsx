@@ -146,7 +146,7 @@ export function Player () {
   }, [currentMusic])
 
   const handleClick = () => {
-    setIsPlaying(!isPlaying)
+    if (currentMusic.song) setIsPlaying(!isPlaying)
   }
 
   return (
