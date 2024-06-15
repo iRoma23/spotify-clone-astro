@@ -136,7 +136,7 @@ export function Player () {
 
   useEffect(() => {
     const {song, playlist, songs} = currentMusic
-
+    
     if (song) {
       const src = `/music/${playlist?.id}/0${song.id}.mp3`
       audioRef.current.src = src
@@ -150,9 +150,12 @@ export function Player () {
   }
 
   return (
+    <div
+      className="fixed h-20 bottom-0 left-2 right-2 z-10 bg-[#010101] flex items-center"
+      style={{viewTransitionName: 'media-player'}}
+    >
       <div
         className="flex flex-row justify-between w-full px-1"
-        style={{viewTransitionName: 'player'}} 
       >
         <div className="w-[200px]">
           <CurrentSong {...currentMusic.song} />
@@ -172,5 +175,6 @@ export function Player () {
           <VolumeControl />
         </div>
       </div>
+    </div>
   )
 }

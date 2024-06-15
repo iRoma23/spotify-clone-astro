@@ -1,0 +1,12 @@
+::view-transition-group(header),
+::view-transition-group(media-player) {
+  z-index: 10;
+}
+
+::view-transition-old(header),
+::view-transition-new(header),
+::view-transition-old(media-player),
+::view-transition-new(media-player) {
+  animation: none;
+  mix-blend-mode: normal;
+}
