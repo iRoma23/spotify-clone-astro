@@ -23,7 +23,7 @@ export const playlists: Playlist[] = [
     id: "2",
     albumId: 2,
     title: "Lo-Fi Chill Session",
-    color: colors.green,
+    color: colors.teal,
     cover:
       "https://vinyl.lofirecords.com/cdn/shop/files/2amsynth-vinyl.png?v=1693312187",
     artists: ["Kupla", "Blue Fox"],

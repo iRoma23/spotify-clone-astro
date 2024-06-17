@@ -11,12 +11,15 @@ const playlist = allPlaylists.find((playlist) => playlist.id === id);
 const playListSongs = songs.filter(
   (song) => song.albumId === playlist?.albumId
 );
+
+const playlistColor = playlist?.color.accent;
 ---
 
 <Layout title="Spotify Clone">
   <div
     id="playlist-container"
-    class="relative flex flex-col h-full bg-zinc-900 overflow-x-hidden"
+    style=`--page-color:${playlistColor}`
+    class="relative min-h-screen flex flex-col overflow-x-hidden z-10 bg-page"
   >
     <!--<PageHeader />-->
     <header class="flex flex-row gap-8 px-6 mt-12">
