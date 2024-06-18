@@ -19,7 +19,7 @@ const playlistColor = playlist?.color.accent;
   <div
     id="playlist-container"
     style=`--page-color:${playlistColor}`
-    class="relative min-h-screen flex flex-col overflow-x-hidden z-10 bg-page"
+    class="relative min-h-fit flex flex-col overflow-x-hidden z-10 bg-page"
   >
     <!--<PageHeader />-->
     <header class="flex flex-row gap-8 px-6 mt-12">
@@ -54,18 +54,17 @@ const playlistColor = playlist?.color.accent;
       </div>
     </header>
 
-    <div class="pl-6 pt-6">
+    <div class="px-6 py-3 mt-2">
       <CardPlayButton client:load id={id} size="large" />
     </div>
 
-    <div class="relative z-10 px-6 pt-10"></div>
+    <section class="p-6 mt-2">
+      <MusicsTable songs={playListSongs} />
+    </section>
 
     <div
       class="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/80 -z-[1]"
     >
     </div>
-    <section class="p-6">
-      <MusicsTable songs={playListSongs} />
-    </section>
   </div>
 </Layout>
