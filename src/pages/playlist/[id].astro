@@ -4,6 +4,7 @@ import MusicsTable from "@/components/MusicsTable.astro";
 import Layout from "@/layouts/Layout.astro";
 
 import { allPlaylists, songs } from "@/lib/data";
+import { formatTime } from "@/utils";
 
 const { id } = Astro.params;
 
@@ -13,6 +14,31 @@ const playListSongs = songs.filter(
 );
 
 const playlistColor = playlist?.color.accent;
+
+let playlistDuration = 0;
+
+for (const song of playListSongs) {
+  const arrTime = song.duration
+    .split(":")
+    .map((item) => parseInt(item))
+    .reverse();
+
+  if (arrTime.length === 1) playlistDuration += arrTime[0];
+  else if (arrTime.length === 2)
+    playlistDuration += arrTime[0] + arrTime[1] * 60;
+  else if (arrTime.length === 3)
+    playlistDuration += arrTime[0] + arrTime[1] * 60 + arrTime[2] * 60 * 60;
+  else playlistDuration += 0;
+}
+
+const formatDuration = (duration: number): string => {
+  const minutes = Math.floor((duration % 3600) / 60);
+  const hours = Math.floor(duration / 3600);
+
+  if (duration < 3600) return `${minutes} min`;
+
+  return `${hours} h`;
+};
 ---
 
 <Layout title="Spotify Clone">
@@ -47,7 +73,7 @@ const playlistColor = playlist?.color.accent;
             </div>
             <p class="mt-1">
               <span class="text-white">{playListSongs.length} canciones</span>,
-              3 h aproximadamente
+              {formatDuration(playlistDuration)} aproximadamente
             </p>
           </div>
         </div>
