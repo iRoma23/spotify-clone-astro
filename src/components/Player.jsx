@@ -12,6 +12,20 @@ export const Play = ({ className }) => (
   <svg className={className} role="img" height="16" width="16" aria-hidden="true" viewBox="0 0 16 16"><path d="M3 1.713a.7.7 0 0 1 1.05-.607l10.89 6.288a.7.7 0 0 1 0 1.212L4.05 14.894A.7.7 0 0 1 3 14.288V1.713z"></path></svg>
 )
 
+const Prev = () => (
+  <svg fill="currentColor" role="img" height="16" width="16" aria-hidden="true" viewBox="0 0 16 16">
+    <path d="M3.3 1a.7.7 0 0 1 .7.7v5.15l9.95-5.744a.7.7 0 0 1 1.05.606v12.575a.7.7 0 0 1-1.05.607L4 9.149V14.3a.7.7 0 0 1-.7.7H1.7a.7.7 0 0 1-.7-.7V1.7a.7.7 0 0 1 .7-.7h1.6z">
+    </path>
+  </svg>
+)
+
+const Next = () => (
+  <svg fill="currentColor" role="img" height="16" width="16" aria-hidden="true" viewBox="0 0 16 16">
+    <path d="M12.7 1a.7.7 0 0 0-.7.7v5.15L2.05 1.107A.7.7 0 0 0 1 1.712v12.575a.7.7 0 0 0 1.05.607L12 9.149V14.3a.7.7 0 0 0 .7.7h1.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7h-1.6z">
+    </path>
+  </svg>
+)
+
 const HighVolume = () => (
   <svg fill="currentColor" role="presentation" height="16" width="16" aria-hidden="true" aria-label="High volume" id="volume-icon" viewBox="0 0 16 16">
     <path d="M9.741.85a.75.75 0 0 1 .375.65v13a.75.75 0 0 1-1.125.65l-6.925-4a3.642 3.642 0 0 1-1.33-4.967 3.639 3.639 0 0 1 1.33-1.332l6.925-4a.75.75 0 0 1 .75 0zm-6.924 5.3a2.139 2.139 0 0 0 0 3.7l5.8 3.35V2.8l-5.8 3.35zm8.683 4.29V5.56a2.75 2.75 0 0 1 0 4.88z"></path><path d="M11.5 13.614a5.752 5.752 0 0 0 0-11.228v1.55a4.252 4.252 0 0 1 0 8.127v1.55z">
@@ -140,7 +154,7 @@ const VolumeControl = () => {
 }
 
 export function Player () {
-  const { isPlaying, currentMusic, setIsPlaying, volume } = usePlayerStore(state => state)
+  const { isPlaying, currentMusic, setIsPlaying, setCurrentMusic ,volume } = usePlayerStore(state => state)
   const audioRef = useRef(null)
 
   useEffect(()=> {
@@ -168,6 +182,40 @@ export function Player () {
     if (currentMusic.song) setIsPlaying(!isPlaying)
   }
 
+  const handleNextSong = () => {
+    const {songs, playlist, song} = currentMusic
+    const indexSong = currentMusic.songs.findIndex(s => s.id === song.id) ?? -1
+
+    if (indexSong > -1) {
+      setIsPlaying(false)
+
+      if (indexSong === (currentMusic.songs.length - 1)) {
+        setCurrentMusic({ songs, playlist, song: songs[0] })
+      } else {
+        setCurrentMusic({ songs, playlist, song: songs[indexSong + 1] })
+      }
+
+      setIsPlaying(true)
+    }
+  }
+
+  const handlePrevSong = () => {
+    const {songs, playlist, song} = currentMusic
+    const indexSong = currentMusic.songs.findIndex(s => s.id === song.id) ?? -1
+
+    if (indexSong > -1) {
+      setIsPlaying(false)
+
+      if (indexSong === 0) {
+        setCurrentMusic({ songs, playlist, song: songs[currentMusic.songs.length - 1] })
+      } else {
+        setCurrentMusic({ songs, playlist, song: songs[indexSong - 1] })
+      }
+
+      setIsPlaying(true)
+    }
+  }
+
   return (
     <div
       className="fixed h-20 bottom-0 left-2 right-2 z-10 bg-[#010101] flex items-center"
@@ -176,23 +224,33 @@ export function Player () {
       <div
         className="flex flex-row justify-between w-full px-1"
       >
-        <div className="w-[200px]">
+        <section className="w-[200px]">
           <CurrentSong {...currentMusic.song} />
-        </div>
+        </section>
 
-        <div className="grid place-content-center gap-4 flex-1">
+        <section className="grid place-content-center gap-4 flex-1">
           <div className="flex justify-center flex-col items-center">
-            <button className="bg-white rounded-full p-2" onClick={handleClick}>
-              {isPlaying ? <Pause /> : <Play />}
-            </button>
+            <div className="flex gap-4">
+              <button onClick={handlePrevSong}>
+                <Prev />
+              </button>
+              <button className="bg-white rounded-full p-2" onClick={handleClick}>
+                {isPlaying ? <Pause /> : <Play />}
+              </button>
+              <button onClick={handleNextSong}>
+                <Next />
+              </button>
+            </div>
+
             <SongControl audio={audioRef} />
+
             <audio ref={audioRef} />
           </div>
-        </div>
+        </section>
 
-        <div className="grid place-content-center">
+        <section className="grid place-content-center">
           <VolumeControl />
-        </div>
+        </section>
       </div>
     </div>
   )
