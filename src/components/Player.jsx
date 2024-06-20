@@ -91,6 +91,8 @@ const SongControl = ({ audio }) => {
 
   const duration = audio?.current?.duration ?? 0
 
+  console.log('currentTime: ', currentTime)
+
   return (
     <div className="flex gap-x-2 text-xs mt-2">
       <span className="opacity-50 w-12 text-right">{formatTime(currentTime)}</span>
@@ -102,7 +104,9 @@ const SongControl = ({ audio }) => {
         min={0}
         className="w-[25rem]"
         onValueChange={value => {
+          console.log('Slider - value[0]: ', value[0])
           audio.current.currentTime= value[0]
+          console.log('Slider - audio.current.currentTime: ', audio.current.currentTime)
         }}
       />
 
