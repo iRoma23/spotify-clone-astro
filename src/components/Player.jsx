@@ -86,12 +86,13 @@ const SongControl = ({ audio }) => {
   }, [])
 
   const handleTimeUpdate = () => {
+    console.log('dentro del handleTimeUpdate')
     setCurrentTime(audio.current.currentTime)
   }
 
   const duration = audio?.current?.duration ?? 0
 
-  console.log('currentTime: ', currentTime)
+  // console.log('currentTime: ', currentTime)
 
   return (
     <div className="flex gap-x-2 text-xs mt-2">
