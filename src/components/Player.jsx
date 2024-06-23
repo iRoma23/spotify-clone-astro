@@ -105,8 +105,11 @@ const SongControl = ({ audio }) => {
         min={0}
         className="w-[25rem]"
         onValueChange={value => {
-          console.log('Slider - value[0]: ', value[0])
-          audio.current.currentTime= value[0]
+          // console.log('Slider - value[0]: ', value[0])
+          // audio.current.currentTime= value[0]
+          const [newCurrentTime] = value
+          audio.current.currentTime = newCurrentTime
+          console.log('Slider - value[0]: ', newCurrentTime)
           console.log('Slider - audio.current.currentTime: ', audio.current.currentTime)
         }}
       />
@@ -220,6 +223,8 @@ export function Player () {
       setIsPlaying(true)
     }
   }
+
+  console.log(audioRef)
 
   return (
     <div
