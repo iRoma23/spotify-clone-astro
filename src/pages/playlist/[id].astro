@@ -1,10 +1,9 @@
 ---
 import { CardPlayButton } from "@/components/CardPlayButton";
-import MusicsTable from "@/components/MusicsTable.astro";
 import Layout from "@/layouts/Layout.astro";
+import MusicsTable from "@/components/MusicTableRow";
 
 import { allPlaylists, songs } from "@/lib/data";
-import { formatTime } from "@/utils";
 
 const { id } = Astro.params;
 
@@ -85,7 +84,7 @@ const formatDuration = (duration: number): string => {
     </div>
 
     <section class="p-6 mt-2">
-      <MusicsTable songs={playListSongs} />
+      <MusicsTable client:load songs={playListSongs} />
     </section>
 
     <div
