@@ -15,13 +15,25 @@ const Time = () => (
 )
 
 const MusicTableRow = ({song, index}) => {
-  const { currentMusic } = usePlayerStore(state => state)
+  const { currentMusic, setCurrentMusic, setIsPlaying } = usePlayerStore(state => state)
 
   const titleColor = currentMusic.song?.id === song.id ? 'text-green-500' : 'text-white'
   const currentSongBg = currentMusic.song?.id === song.id ? 'bg-white/10' : ''
 
+  const handleClick = () => {
+    const {songs, playlist} = currentMusic
+    const newSong = songs.find(s => s.id === song.id)
+
+    setIsPlaying(false)
+    setCurrentMusic({songs, playlist, song: newSong})
+    setIsPlaying(true)
+  }
+
   return (
-    <tr key={song.id} className={`text-gray-300 text-sm font-light hover:bg-white/10 transition duration-300 ${currentSongBg}`}>
+    <tr
+      key={song.id}
+      onClick={handleClick}
+      className={`text-gray-300 text-sm font-light hover:bg-white/10 transition duration-300 ${currentSongBg}`}>
       <td className="px-4 py-2 rounded-l-lg w-5">{index + 1}</td>
       <td className="px-4 py-2 flex gap-3">
         <picture>
