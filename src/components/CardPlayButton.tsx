@@ -1,7 +1,12 @@
 import { Play, Pause } from "./Player";
 import { usePlayerStore } from "@/store/playerStore";
 
-export function CardPlayButton ({id, size = 'small'}) {
+interface Props {
+  id?: string,
+  size?: 'small' | 'large'
+}
+
+export function CardPlayButton ({id, size = 'small'}: Props) {
   const {
     isPlaying,
     currentMusic,
@@ -9,7 +14,7 @@ export function CardPlayButton ({id, size = 'small'}) {
     setCurrentMusic
   } = usePlayerStore(state => state)
   
-  const isPlayingPlaylist = isPlaying && currentMusic?.playlist?.id === id
+  const isPlayingPlaylist = isPlaying && currentMusic.playlist?.id === id
 
   const handleClick = () => {
     if (isPlayingPlaylist) {
