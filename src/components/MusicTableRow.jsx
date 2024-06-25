@@ -18,9 +18,10 @@ const MusicTableRow = ({song, index}) => {
   const { currentMusic } = usePlayerStore(state => state)
 
   const titleColor = currentMusic.song?.id === song.id ? 'text-green-500' : 'text-white'
+  const currentSongBg = currentMusic.song?.id === song.id ? 'bg-white/10' : ''
 
   return (
-    <tr key={song.id} className="text-gray-300 text-sm font-light hover:bg-white/10 transition duration-300">
+    <tr key={song.id} className={`text-gray-300 text-sm font-light hover:bg-white/10 transition duration-300 ${currentSongBg}`}>
       <td className="px-4 py-2 rounded-l-lg w-5">{index + 1}</td>
       <td className="px-4 py-2 flex gap-3">
         <picture>
@@ -39,7 +40,7 @@ const MusicTableRow = ({song, index}) => {
 
 function MusicsTable({ songs }) {
   return (
-    <table className="table-auto text-left min-w-full divide-y divide-gray-500/30">
+    <table className="table-auto text-left min-w-full divide-y divide-gray-500/30 border-separate border-spacing-y-1">
       <thead>
         <tr className="text-zinc-400 text-sm">
           <th className="px-4 py-2 font-light">#</th>
