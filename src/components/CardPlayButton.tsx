@@ -1,4 +1,4 @@
-import { Play, Pause } from "./Player";
+import { Play, Pause } from "@/icons/ReactIcons";
 import { usePlayerStore } from "@/store/playerStore";
 
 interface Props {
