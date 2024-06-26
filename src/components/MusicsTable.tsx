@@ -17,21 +17,31 @@ interface MusicTableRowProps {
 const MusicTableRow = ({ song, index, playlist }: MusicTableRowProps) => {
   const { currentMusic, setCurrentMusic, setIsPlaying } = usePlayerStore(state => state)
   
+  const isCurrentMusic = currentMusic.song?.id === song.id
+  const isCurrentAlbum = currentMusic.playlist?.albumId === playlist?.albumId
+  
+  const titleColor = isCurrentMusic && isCurrentAlbum? 'text-green-500' : 'text-white'
+  const currentSongBg = isCurrentMusic && isCurrentAlbum ? 'bg-white/10' : ''
+  
   const handleClick = () => {
-    const {songs, playlist} = currentMusic
-    const newSong = songs.find(s => s.id === song.id)
+    const {songs: currentSongs, playlist: currentPlaylist} = currentMusic
+    const newSong = currentSongs.find(s => s.id === song.id)
     
-    if (newSong) {
+    if (newSong && isCurrentAlbum) {
       setIsPlaying(false)
-      setCurrentMusic({songs, playlist, song: newSong})
+      setCurrentMusic({songs: currentSongs, playlist: currentPlaylist, song: newSong})
       setIsPlaying(true)
     }
+    else {
+      fetch(`/api/get-info-playlist.json?id=${playlist?.id}`)
+        .then(res => res.json())
+        .then(data => {
+          const { songs: newSongs , playlist: newPlaylist } = data
+          setIsPlaying(true)
+          setCurrentMusic({ songs: newSongs, playlist: newPlaylist, song: song })
+        })
+    }
   }
-
-  const isCurrentMusic = currentMusic.song?.id === song.id && currentMusic.playlist?.albumId === playlist?.albumId
-  
-  const titleColor = isCurrentMusic ? 'text-green-500' : 'text-white'
-  const currentSongBg = isCurrentMusic ? 'bg-white/10' : ''
 
   return (
     <tr
