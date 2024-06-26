@@ -1,33 +1,37 @@
 import { usePlayerStore } from "@/store/playerStore"
-import type { Song } from "@/lib/data"
+import type { Song, Playlist } from "@/lib/data"
 
 import { Time } from "@/icons/ReactIcons"
 
 interface MusicTableProps {
   songs: Song[]
+  playlist?: Playlist
 }
 
 interface MusicTableRowProps {
   song: Song
   index: number
+  playlist?: Playlist
 }
 
-const MusicTableRow = ({song, index}: MusicTableRowProps) => {
+const MusicTableRow = ({ song, index, playlist }: MusicTableRowProps) => {
   const { currentMusic, setCurrentMusic, setIsPlaying } = usePlayerStore(state => state)
-
-  const titleColor = currentMusic.song?.id === song.id ? 'text-green-500' : 'text-white'
-  const currentSongBg = currentMusic.song?.id === song.id ? 'bg-white/10' : ''
-
+  
   const handleClick = () => {
     const {songs, playlist} = currentMusic
     const newSong = songs.find(s => s.id === song.id)
-
+    
     if (newSong) {
       setIsPlaying(false)
       setCurrentMusic({songs, playlist, song: newSong})
       setIsPlaying(true)
     }
   }
+
+  const isCurrentMusic = currentMusic.song?.id === song.id && currentMusic.playlist?.albumId === playlist?.albumId
+  
+  const titleColor = isCurrentMusic ? 'text-green-500' : 'text-white'
+  const currentSongBg = isCurrentMusic ? 'bg-white/10' : ''
 
   return (
     <tr
@@ -50,7 +54,7 @@ const MusicTableRow = ({song, index}: MusicTableRowProps) => {
   )
 }
 
-function MusicsTable({ songs }: MusicTableProps) {
+function MusicsTable({ playlist, songs }: MusicTableProps) {
   return (
     <table className="table-auto text-left min-w-full divide-y divide-gray-500/30 border-separate border-spacing-y-1">
       <thead>
@@ -64,7 +68,7 @@ function MusicsTable({ songs }: MusicTableProps) {
       <tbody>
       {
         songs.map((song, index) => (
-          <MusicTableRow key={song.id} song={song} index={index} />
+          <MusicTableRow key={song.id} song={song} index={index} playlist={playlist} />
         ))
       }
       </tbody>

@@ -84,7 +84,7 @@ const formatDuration = (duration: number): string => {
     </div>
 
     <section class="p-6 mt-2">
-      <MusicsTable client:load songs={playListSongs} />
+      <MusicsTable client:load songs={playListSongs} playlist={playlist} />
     </section>
 
     <div
