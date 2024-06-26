@@ -82,7 +82,7 @@ export function Player () {
       <div
         className="flex flex-row justify-between w-full px-1"
       >
-        <section className="w-[200px]">
+        <section className="basis-[21.375rem]">
           <CurrentSong {...currentMusic.song} />
         </section>
 
@@ -106,7 +106,7 @@ export function Player () {
           </div>
         </section>
 
-        <section className="grid place-content-center">
+        <section className="basis-[21.375rem] flex items-center justify-end">
           <VolumeControl />
         </section>
       </div>
